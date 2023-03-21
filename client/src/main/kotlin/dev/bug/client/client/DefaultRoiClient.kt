@@ -10,7 +10,7 @@ class DefaultRoiClient(val webClient: WebClient): RoiClient {
 
     override fun petitions(): Mono<Petitions> {
         return webClient.get()
-            .uri("/petitions/poll.jso")
+            .uri("/petitions/poll.json")
             .retrieve()
             .bodyToMono(Petitions::class.java)
     }

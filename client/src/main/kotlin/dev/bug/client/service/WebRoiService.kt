@@ -3,7 +3,6 @@ package dev.bug.client.service
 import dev.bug.client.client.RoiClient
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import reactor.core.publisher.Hooks.onErrorDropped
 
 @Service
 class WebRoiService(val roiClient: RoiClient): RoiService {
@@ -13,7 +12,6 @@ class WebRoiService(val roiClient: RoiClient): RoiService {
     }
 
     override fun processPoll() {
-        onErrorDropped { error -> log.error("Произошла ошибка при обращении к внешнему сервису: ${error.message}", error) }
         roiClient.petitions()
             .map { it.data }
             .doOnError { error -> log.error("Ошибка при загрузке данных: ${error.message}") }
